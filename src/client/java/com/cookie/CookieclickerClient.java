@@ -6,7 +6,8 @@ import com.mojang.blaze3d.platform.Window;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+//import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.minecraft.client.KeyMapping;
@@ -18,7 +19,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import org.joml.Matrix3x2fStack;
-import org.lwjgl.glfw.GLFW;
+//import org.lwjgl.glfw.GLFW;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -57,9 +58,33 @@ public class CookieclickerClient implements ClientModInitializer {
 
 		KeyMapping.Category CATEGORY = new KeyMapping.Category(Identifier.fromNamespaceAndPath(Cookieclicker.MOD_ID, "cookie_clicker"));
 
-		KeyMapping openBuildings = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.open_buildings_screen", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_C, CATEGORY));
-		KeyMapping openUpgrades = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.open_upgrades_screen", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY));
-		KeyMapping toggleGame = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.toggle_game", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_COMMA, CATEGORY));
+
+		// https://docs.fabricmc.net/develop/key-mappings
+		KeyMapping openBuildings = KeyMappingHelper.registerKeyMapping(
+				new KeyMapping(
+						"key.cookie-clicker.open_buildings_screen", // The translation key for the key mapping.
+						InputConstants.Type.KEYBOARD, // The type of the keybinding; KEYSYM for keyboard, MOUSE for mouse.
+						InputConstants.KEY_C, // The keycode of the key.
+						CATEGORY // The category of the mapping.
+				));
+		KeyMapping openUpgrades = KeyMappingHelper.registerKeyMapping(
+				new KeyMapping(
+						"key.cookie-clicker.open_upgrades_screen", // The translation key for the key mapping.
+						InputConstants.Type.KEYBOARD, // The type of the keybinding; KEYSYM for keyboard, MOUSE for mouse.
+						InputConstants.KEY_V, // The keycode of the key.
+						CATEGORY // The category of the mapping.
+				));
+		KeyMapping toggleGame = KeyMappingHelper.registerKeyMapping(
+				new KeyMapping(
+						"key.cookie-clicker.toggle_game", // The translation key for the key mapping.
+						InputConstants.Type.KEYBOARD, // The type of the keybinding; KEYSYM for keyboard, MOUSE for mouse.
+						InputConstants.KEY_COMMA, // The keycode of the key.
+						CATEGORY // The category of the mapping.
+				));
+
+		//KeyMapping openBuildings = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.open_buildings_screen", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_C, CATEGORY));
+		//KeyMapping openUpgrades = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.open_upgrades_screen", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY));
+		//KeyMapping toggleGame = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.toggle_game", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_COMMA, CATEGORY));
 		//KeyMapping debug = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.debug", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, CATEGORY));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {

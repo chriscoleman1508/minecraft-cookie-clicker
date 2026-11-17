@@ -366,13 +366,13 @@ public class Cookie {
 
             for(Kitten k : TOTAL_KITTENS) {
                 if(k.purchased) {
-                    data.purchasedUpgrades.add(k.name);
+                    data.purchasedKittens.add(k.name);
                 }
             }
 
             for(ClickUpgrade cu : TOTAL_CLICK_UPGRADE) {
                 if(cu.purchased) {
-                    data.purchasedUpgrades.add(cu.name);
+                    data.purchasedClickUpgrades.add(cu.name);
                 }
             }
 
@@ -409,12 +409,12 @@ public class Cookie {
                 }
             }
             for (Kitten b : KITTENS) {
-                if(data.purchasedKittens.contains(b.name)) {
+                if(data.purchasedKittens != null && data.purchasedKittens.contains(b.name)) {
                     b.purchased = true;
                 }
             }
             for (ClickUpgrade b : CLICK_UPGRADES) {
-                if(data.purchasedClickUpgrades.contains(b.name)) {
+                if(data.purchasedClickUpgrades != null && data.purchasedClickUpgrades.contains(b.name)) {
                     b.purchased = true;
                 }
             }

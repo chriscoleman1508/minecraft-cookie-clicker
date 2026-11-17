@@ -1,6 +1,6 @@
 package com.cookie;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.Tooltip;
@@ -44,13 +44,9 @@ public class CookieScreen extends Screen {
 
         }
     }
-
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        super.render(graphics, mouseX, mouseY, delta);
-
-        // textRenderer, text, x, y, color, hasShadow
-        graphics.drawString(this.font, "Purchase Buildings", (this.width / 2) - (this.font.width("Purchase Buildings") / 2), 10, 0xFFFFFFFF, true);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
+        graphics.text(this.font, "Purchase Buildings", (this.width / 2) - (this.font.width("Purchase Buildings") / 2), 10, 0xFFFFFFFF, true);
     }
-
 }

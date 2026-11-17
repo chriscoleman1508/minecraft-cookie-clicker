@@ -1,6 +1,6 @@
 package com.cookie;
 
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class GoldenCookie {
     private final Random rand = new Random();
 
     // up left down right
-    private static final int[] KEYS = {GLFW.GLFW_KEY_W, GLFW.GLFW_KEY_A, GLFW.GLFW_KEY_S, GLFW.GLFW_KEY_D};
+    private static final int[] KEYS = {InputConstants.KEY_W, InputConstants.KEY_A, InputConstants.KEY_S, InputConstants.KEY_D};
 
     public void startNew(int length) {
         sequence.clear();

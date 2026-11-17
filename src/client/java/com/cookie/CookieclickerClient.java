@@ -81,12 +81,6 @@ public class CookieclickerClient implements ClientModInitializer {
 						InputConstants.KEY_COMMA, // The keycode of the key.
 						CATEGORY // The category of the mapping.
 				));
-
-		//KeyMapping openBuildings = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.open_buildings_screen", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_C, CATEGORY));
-		//KeyMapping openUpgrades = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.open_upgrades_screen", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY));
-		//KeyMapping toggleGame = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.toggle_game", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_COMMA, CATEGORY));
-		//KeyMapping debug = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.cookie-clicker.debug", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, CATEGORY));
-
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			boolean isPressed = client.mouseHandler.isLeftPressed();
 
@@ -124,14 +118,14 @@ public class CookieclickerClient implements ClientModInitializer {
 			while (openBuildings.consumeClick()) {
 				if(client.player != null) {
 					//client.player.displayClientMessage(Component.literal("Opening cookie clicker!"), false);
-					Minecraft.getInstance().setScreen( new CookieScreen(Component.empty()));
+					Minecraft.getInstance().gui.setScreen( new CookieScreen(Component.empty()));
 				}
 			}
 			// If open Upgrades
 			while (openUpgrades.consumeClick()) {
 				if(client.player != null) {
 					//client.player.displayClientMessage(Component.literal("Opening cookie clicker!"), false);
-					Minecraft.getInstance().setScreen( new UpgradeScreen(Component.empty()));
+					Minecraft.getInstance().gui.setScreen( new UpgradeScreen(Component.empty()));
 				}
 			}
 			// toggle game
@@ -166,10 +160,10 @@ public class CookieclickerClient implements ClientModInitializer {
 
 	private void handleGoldenCookie(Minecraft client) {
 		Window window = client.getWindow();
-		int[] checkKeys = {GLFW.GLFW_KEY_W, GLFW.GLFW_KEY_A, GLFW.GLFW_KEY_S, GLFW.GLFW_KEY_D};
+		int[] checkKeys = {InputConstants.KEY_W, InputConstants.KEY_A, InputConstants.KEY_S, InputConstants.KEY_D};
 
 		for (int key : checkKeys) {
-			boolean isDown = com.mojang.blaze3d.platform.InputConstants.isKeyDown(window, key);
+			boolean isDown = com.mojang.blaze3d.platform.InputConstants.isKeyDown(key);
 			if (isDown && !keyStates[key]) {
 				if(gc.input(key)) {
 					// Golden cookie success
@@ -190,7 +184,7 @@ public class CookieclickerClient implements ClientModInitializer {
 			if (gameEnabled) {
 				var client = Minecraft.getInstance();
 
-				if(client.screen != null) {
+				if(client.gui.screen() != null) {
 					return;
 				}
 				totalTickProgress += deltaTracker.getGameTimeDeltaPartialTick(true);
@@ -205,10 +199,10 @@ public class CookieclickerClient implements ClientModInitializer {
 				float finalScale = cookieScale + idlePulse;
 
 				// TextRenderer, text (string, or Text object), x, y, color, shadow
-				graphics.drawString(client.font, "Cookies: " + Cookie.format(Cookie.cookies), 2, 5, 0xFFFFFFFF, true);
-				graphics.drawString(client.font, "Cookies Per Second: " + Cookie.format(Cookie.cookiesPerSecond), 2, 15, 0xFFFFFFFF, true);
-				graphics.drawString(client.font, "Max Cookies: " + Cookie.format(Cookie.maxCookies), 2, 25, 0xFFFFFFFF, true);
-				graphics.drawString(client.font, "Milk%: " + Cookie.format(BigDecimal.valueOf(Cookie.getMilk()).setScale(2, RoundingMode.HALF_UP)), 2, 35, 0xFFFFFFFF, true);
+				graphics.text(client.font, "Cookies: " + Cookie.format(Cookie.cookies), 2, 5, 0xFFFFFFFF, true);
+				graphics.text(client.font, "Cookies Per Second: " + Cookie.format(Cookie.cookiesPerSecond), 2, 15, 0xFFFFFFFF, true);
+				graphics.text(client.font, "Max Cookies: " + Cookie.format(Cookie.maxCookies), 2, 25, 0xFFFFFFFF, true);
+				graphics.text(client.font, "Milk%: " + Cookie.format(BigDecimal.valueOf(Cookie.getMilk()).setScale(2, RoundingMode.HALF_UP)), 2, 35, 0xFFFFFFFF, true);
 
 				//graphics.drawString(client.font, "X: " + client.mouseHandler.xpos(), 2, 45, 0xFFFFFFFF, true);
 				//graphics.drawString(client.font, "Y: " + client.mouseHandler.ypos(), 2, 55, 0xFFFFFFFF, true);
@@ -223,10 +217,10 @@ public class CookieclickerClient implements ClientModInitializer {
 					for(int i = 0; i < gc.sequence.size(); i++) {
 						int key = gc.sequence.get(i);
 						String letter = switch (key) {
-							case GLFW.GLFW_KEY_W -> "↑";
-							case GLFW.GLFW_KEY_A -> "←";
-							case GLFW.GLFW_KEY_S -> "↓";
-							case GLFW.GLFW_KEY_D -> "→";
+							case InputConstants.KEY_W -> "↑";
+							case InputConstants.KEY_A -> "←";
+							case InputConstants.KEY_S -> "↓";
+							case InputConstants.KEY_D -> "→";
 							default -> "?";
 						};
 						int color;
@@ -236,19 +230,19 @@ public class CookieclickerClient implements ClientModInitializer {
 						else {
 							color = 0xFF888888;
 						}
-						graphics.drawString(client.font, "Press these keys to activate a golden cookie", centerX - (client.font.width("Press these keys to activate a golden cookie") / 2), y, color, true);
+						graphics.text(client.font, "Press these keys to activate a golden cookie", centerX - (client.font.width("Press these keys to activate a golden cookie") / 2), y, color, true);
 
-						graphics.drawString(client.font, letter, centerX - (gc.sequence.size() * 10 / 2) + (i * 10), y + 20, color, true);
+						graphics.text(client.font, letter, centerX - (gc.sequence.size() * 10 / 2) + (i * 10), y + 20, color, true);
 						letter = switch (key) {
-							case GLFW.GLFW_KEY_W -> "W";
-							case GLFW.GLFW_KEY_A -> "A";
-							case GLFW.GLFW_KEY_S -> "S";
-							case GLFW.GLFW_KEY_D -> "D";
+							case InputConstants.KEY_W -> "W";
+							case InputConstants.KEY_A -> "A";
+							case InputConstants.KEY_S -> "S";
+							case InputConstants.KEY_D -> "D";
 							default -> "?";
 						};
-						graphics.drawString(client.font, letter, centerX - (gc.sequence.size() * 10 / 2) + (i * 10), y + 30, color, true);
-						graphics.drawString(client.font, "Time Left:", centerX - (client.font.width("Time Left:") / 2), y + 40, color, true);
-						graphics.drawString(client.font, Cookie.cookieSecondsLeft + " seconds", centerX - (client.font.width(Cookie.cookieSecondsLeft + " seconds") / 2), y + 50, color, true);
+						graphics.text(client.font, letter, centerX - (gc.sequence.size() * 10 / 2) + (i * 10), y + 30, color, true);
+						graphics.text(client.font, "Time Left:", centerX - (client.font.width("Time Left:") / 2), y + 40, color, true);
+						graphics.text(client.font, Cookie.cookieSecondsLeft + " seconds", centerX - (client.font.width(Cookie.cookieSecondsLeft + " seconds") / 2), y + 50, color, true);
 					}
 				}
 
@@ -259,14 +253,14 @@ public class CookieclickerClient implements ClientModInitializer {
 				matrices.translate(graphics.guiWidth()/2f, graphics.guiHeight()/2f);
 
 				if(Cookie.frenzy) {
-					graphics.drawString(client.font, "GOLDEN COOKIE!", 0 - (client.font.width("GOLDEN COOKIE!") / 2), -80, 0xFFFFFFFF, true);
-					graphics.drawString(client.font, "Frenzy! x7 CPS!", 0 - (client.font.width("Frenzy! x7 CPS!") / 2), -60, 0xFFFFFFFF, true);
-					graphics.drawString(client.font, "Time Left: " + Cookie.timer + " seconds", 0 - (client.font.width("Time Left: " + Cookie.timer + " seconds") / 2), -40, 0xFFFFFFFF, true);
+					graphics.text(client.font, "GOLDEN COOKIE!", 0 - (client.font.width("GOLDEN COOKIE!") / 2), -80, 0xFFFFFFFF, true);
+					graphics.text(client.font, "Frenzy! x7 CPS!", 0 - (client.font.width("Frenzy! x7 CPS!") / 2), -60, 0xFFFFFFFF, true);
+					graphics.text(client.font, "Time Left: " + Cookie.timer + " seconds", 0 - (client.font.width("Time Left: " + Cookie.timer + " seconds") / 2), -40, 0xFFFFFFFF, true);
 				}
 				else if(Cookie.clickFrenzy) {
-					graphics.drawString(client.font, "GOLDEN COOKIE!", 0 - (client.font.width("GOLDEN COOKIE!") / 2), -80, 0xFFFFFFFF, true);
-					graphics.drawString(client.font, "Frenzy! x777 Click Power!", 0 - (client.font.width("Frenzy! x777 Click Power!") / 2), -60, 0xFFFFFFFF, true);
-					graphics.drawString(client.font, "Time Left: " + Cookie.timer + " seconds", 0 - (client.font.width("Time Left: " + Cookie.timer + " seconds") / 2), -40, 0xFFFFFFFF, true);
+					graphics.text(client.font, "GOLDEN COOKIE!", 0 - (client.font.width("GOLDEN COOKIE!") / 2), -80, 0xFFFFFFFF, true);
+					graphics.text(client.font, "Frenzy! x777 Click Power!", 0 - (client.font.width("Frenzy! x777 Click Power!") / 2), -60, 0xFFFFFFFF, true);
+					graphics.text(client.font, "Time Left: " + Cookie.timer + " seconds", 0 - (client.font.width("Time Left: " + Cookie.timer + " seconds") / 2), -40, 0xFFFFFFFF, true);
 				}
 				matrices.scale(finalScale, finalScale);
 				// cookie texture
@@ -284,10 +278,10 @@ public class CookieclickerClient implements ClientModInitializer {
 					int alpha = (int)(Mth.clamp(fadeOut, 0.0f, 1.0f) * 255);
 					int color = (alpha << 24) | 0xFFFFFF;
 					if(Cookie.clickFrenzy) {
-						graphics.drawString(client.font, String.valueOf(Cookie.cookiesPerClick.multiply(BigDecimal.valueOf(777)).setScale(2, RoundingMode.HALF_UP)), (int)t.x, (int)t.y, color, true);
+						graphics.text(client.font, String.valueOf(Cookie.cookiesPerClick.multiply(BigDecimal.valueOf(777)).setScale(2, RoundingMode.HALF_UP)), (int)t.x, (int)t.y, color, true);
 					}
 					else {
-						graphics.drawString(client.font, t.text, (int)t.x, (int)t.y, color, true);
+						graphics.text(client.font, t.text, (int)t.x, (int)t.y, color, true);
 					}
 				}
 				matrices.popMatrix();

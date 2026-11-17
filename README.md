@@ -1,7 +1,7 @@
-# 🍪 Cookie Clicker in Minecraft 
-This is a recreation of Cookie Clicker in Minecraft for Fabric 1.21.11!
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/MMtbI44ItwY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-[Watch a demo here](https://www.youtube.com/watch?v=MMtbI44ItwY)
+# 🍪 Cookie Clicker in Minecraft 
+This is a recreation of Cookie Clicker in Minecraft for Fabric 1.21.11 and 26.3
 
 ## ⭐ Current features:
 - Buildings up to the wizard tower
